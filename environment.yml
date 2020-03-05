@@ -1,0 +1,31 @@
+name: ppmi_snf
+channels:
+    - defaults
+    - conda-forge
+dependencies:
+    - python=3.6
+    - docker-py
+    - flake8
+    - h5py==2.9.0
+    - ipython==7.3.0
+    - joblib==0.13.2
+    - jupyterlab
+    - matplotlib==3.0.3
+    - mkl==2019.1
+    - nibabel==2.3.3
+    - nilearn==0.5.0
+    - numba==0.41.0
+    - numpy==1.16.2
+    - pandas==0.23.2
+    - pip
+    - pyqt==5.9.2
+    - pytables==3.5.1
+    - requests==2.21.0
+    - scikit-learn==0.20.3
+    - scipy==1.2.1
+    - seaborn==0.9.0
+    - statsmodels==0.9.0
+    - tqdm==4.31.1
+    - pip:
+        - git+https://github.com/aestrivex/bctpy.git@0.5.1
+        - git+https://github.com/satra/mapalign.git@0.2.1

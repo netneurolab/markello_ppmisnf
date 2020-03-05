@@ -1,0 +1,12 @@
+[submodule "ppmi_snf/snfpy"]
+	path = code/snfpy
+	url = https://github.com/rmarkello/snfpy
+[submodule "ppmi_snf/neurocombat"]
+	path = code/neurocombat
+	url = https://github.com/rmarkello/neurocombat
+[submodule "ppmi_snf/pypmi"]
+	path = code/pypmi
+	url = https://github.com/rmarkello/pypmi
+[submodule "ppmi_snf/netneurotools"]
+	path = code/netneurotools
+	url = https://github.com/rmarkello/netneurotools

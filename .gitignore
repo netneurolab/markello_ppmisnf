@@ -1,0 +1,15 @@
+*.pyc
+.ipynb_checkpoints/
+license.txt
+__pycache__
+*img
+figures/
+.vscode/
+matlab/
+.cache/
+.config/
+.local/
+.jupyter/
+.ipython/
+.bash_history
+data/
