@@ -1,6 +1,6 @@
 # Integrated morphometric, molecular, and clinical characterization of Parkinson's disease pathology
 
-This repository contains the LaTeX files and figures for the recent preprint "[Integrated morphometric, molecular, and clinical characterization of Parkinson's disease pathology]()."
+This repository contains the LaTeX files and figures for the recent preprint "[Integrated morphometric, molecular, and clinical characterization of Parkinson's disease pathology](https://www.biorxiv.org/content/10.1101/2020.03.05.979526v1)."
 You can find the full repository in support of the manuscript with code, data, and more on GitHub: [https://github.com/netneurolab/markello_ppmisnf](https://github.com/netneurolab/markello_ppmisnf).
 
 Full citation:
