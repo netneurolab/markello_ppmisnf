@@ -18,7 +18,7 @@ Get going with the following:
 git clone --recurse-submodules https://github.com/netneurolab/markello_ppmisnf
 cd markello_ppmisnf
 pip install -r requirements.txt
-export PYTHONPATH=$PYTHONPATH:$PWD/code/ppmi_snf:$PWD/code/netneurotools:$PWD/code/neurocombat:$PWD/code/pypmi:$PWD/code/snfpy
+export PYTHONPATH=$PYTHONPATH:$PWD/code
 make all
 ```
 
