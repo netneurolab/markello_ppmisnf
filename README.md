@@ -11,8 +11,9 @@ We've tried to document the various aspects of this repository with a whole bunc
 
 ## "Just let me run the things!"
 
-Itching to just run the analyses? 
-Get going with the following:
+Itching to just run the analyses?
+You'll need to make sure you have [access to the PPMI](./walkthrough/01_accessing_data.md) and have set the appropriate environmental variables (`$PPMI_USER`) and (`$PPMI_PASSWORD`).
+Once you've done that, you can get going with the following:
 
 ```bash
 git clone --recurse-submodules https://github.com/netneurolab/markello_ppmisnf
@@ -32,10 +33,10 @@ bash container/run.sh
 make all
 ```
 
-## "I want to take things slow"
+## "I want to take things slow."
 
 If you want a step-by-step through all the methods + analyses, take a look at out our [walkthrough](./walkthrough).
 
-## "I have questions"
+## "I have some questions..."
 
 [Open an issue](https://github.com/netneurolab/markello_ppmisnf/issues) on this repository and someone will try and get back to you as soon as possible!
