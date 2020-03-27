@@ -1,5 +1,7 @@
 # Similarity network fusion in Parkinson's disease
 
+[![DOI](https://zenodo.org/badge/245268776.svg)](https://zenodo.org/badge/latestdoi/245268776)
+
 ## "What's in this repository?"
 
 This repository contains data, code, and results for the manuscript "[Integrated morphometric, molecular, and clinical characterization of Parkinson's disease pathology](https://www.biorxiv.org/content/10.1101/2020.03.05.979526v1)."
