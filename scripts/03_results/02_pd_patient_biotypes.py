@@ -13,6 +13,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import scipy.stats as sstats
+from sklearn.cluster import spectral_clustering
+from sklearn import metrics
 import statsmodels.formula.api as smf
 
 from ppmi_snf import defaults, directories, structures, utils
@@ -526,6 +528,40 @@ def gen_figure(data, demographics, agreement, consensus, assignments, zrand):
     return fig
 
 
+def supplementary_longitudinal_outcomes(demographics):
+    """ For supplementary longitudinal outcome figures """
+
+    behavior = load_longitudinal_behavior(demographics.index)
+    fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+    fig.subplots_adjust(wspace=0.3)
+
+    for n, (lp, ax) in enumerate(zip(['pigd', 'tremor'], axes)):
+        # get data for given test
+        pd_test = pd.merge(clean_visits(behavior, lp), demographics,
+                           on='participant')
+        # normalize data based on first visit mean/stdev
+        t = pd_test.query('visit == 0')[lp]
+        pd_test.loc[:, lp] -= t.mean()
+        pd_test.loc[:, lp] /= t.std(ddof=1)
+        # plot it
+        sns.lineplot(x='visit', y=lp, data=pd_test.dropna(subset=[lp]),
+                     hue='cluster', palette=defaults.three_cluster_cmap,
+                     legend=False, ci=68, ax=ax)
+        ax.set(xticklabels=[], xlabel='time')
+        if n == 0:
+            ax.set_ylabel('clinical severity', labelpad=10)
+            ax.set(yticks=[-0.5, 0.5, 1.5, 2.5],
+                   yticklabels=[-0.5, 0.5, 1.5, 2.5])
+        else:
+            ax.set(ylabel='',
+                   yticks=[-0.75, 0, 0.75],
+                   yticklabels=[-0.75, 0, 0.75])
+        ax.set_title(lp, pad=15)
+        sns.despine(ax=ax)
+
+    return fig
+
+
 def main():
     keys = [
         'cortical_thickness',
@@ -588,6 +624,29 @@ def main():
     if SAVE_FIGS:
         fname = op.join(directories.figs, 'patient_clusters')
         utils.savefig(fname, fig)
+
+    # figures for comparing longitudinal outcomes from SNF-derived biotypes
+    # with biotypes derived from other subsets of data / methodologies
+    # first, start with biotypes produced from all data w/SNF
+    path = '/snf/processed/{}/sqeuclidean/gridsearch/consensus'
+    clusters = [
+        hdf[path.format('all')],
+        hdf[path.format('behavioral_measures')],
+        spectral_clustering(
+            metrics.pairwise.cosine_similarity(
+                sstats.zscore(np.column_stack(data), ddof=1)
+            ) + 1,
+            n_clusters=3, random_state=1234
+        )
+    ]
+    for clust, fn in zip(clusters, ['snf', 'behavior', 'concatenate']):
+        demographics = demographics.assign(cluster=pd.Categorical(clust))
+        fig = supplementary_longitudinal_outcomes(demographics)
+        run_lme(demographics, 'pigd')
+        run_lme(demographics, 'tremor')
+        if SAVE_FIGS:
+            utils.savefig(op.join(directories.figs, 'supp_long', fn), fig)
+            plt.close(fig=fig)
 
 
 if __name__ == "__main__":

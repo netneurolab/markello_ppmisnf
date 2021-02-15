@@ -20,6 +20,7 @@ from sklearn.model_selection import KFold
 from statsmodels.stats.multitest import fdrcorrection
 
 from ppmi_snf import defaults, directories, structures, utils
+from netneurotools.stats import efficient_pearsonr
 from netneurotools.utils import add_constant
 
 from analysis import (get_embedding_variance, get_zrand_mask,
@@ -410,6 +411,57 @@ def main():
                      corr_idxs)
     if SAVE_FIGS:
         fname = op.join(directories.figs, 'diffusion_embedding')
+        utils.savefig(fname, fig)
+
+    # compare with PCA on concatenated data
+    embedding = hdf['/snf/processed/all/sqeuclidean/gridsearch/embedding']
+    consensus = hdf['/snf/processed/all/sqeuclidean/gridsearch/consensus']
+
+    zdata = sstats.zscore(np.column_stack(data), ddof=1)
+    u, s, v = np.linalg.svd(zdata, full_matrices=False)
+    v = v.T
+    pc_scores = zdata @ v
+
+    # make figure for plot
+    fig, axes = plt.subplots(2, 5, figsize=(25, 10))
+    axes[0, 0].remove()
+    axes[0, -1].remove()
+
+    # first, we'll see how the pc_scores look plotted against one another
+    # we'll use SNF-derived clusters to examine the distribution of patients
+    axes[0, 1].scatter(pc_scores[:, 0], pc_scores[:, 1],
+                       c=consensus, rasterized=True,
+                       cmap=ListedColormap(defaults.three_cluster_cmap),
+                       edgecolor=defaults.edgegray, s=60, linewidth=0.5)
+    sns.despine(ax=axes[0, 1])
+    axes[0, 1].set(xticklabels=[], yticklabels=[], xlabel='pc1', ylabel='pc2')
+
+    # then, let's check how well pc_scores correlate with embedding scores
+    corrs = efficient_pearsonr(pc_scores[:, :10], embedding)[0]
+    for n, ax in enumerate(axes[0, 2:4]):
+        sns.regplot(pc_scores[:, n], embedding[:, n], ax=ax, ci=None,
+                    scatter_kws=scatter_kws, line_kws=line_kws)
+        ax.set(xlabel=f'pc{n + 1}',
+               ylabel=f'embedding dimension {n + 1}',
+               xticklabels=[], yticklabels=[])
+        sns.despine(ax=ax)
+        ax.set_title(f'r = {corrs[n]:.2f}')
+
+    for n, (ax, dt) in enumerate(zip(axes[1], data)):
+        zdt = sstats.zscore(dt, ddof=1)
+        u, s, v = np.linalg.svd(zdt, full_matrices=False)
+        dt_scores = (zdt @ v.T)[:, 0]
+        sns.regplot(dt_scores, pc_scores[:, 0], ax=ax, ci=None,
+                    scatter_kws=scatter_kws, line_kws=line_kws)
+        ax.set(ylabel='pc1\n(all data)' if n == 0 else '',
+               xlabel=f'pc1\n({keys[n].replace("_", " ")})',
+               xticklabels=[], yticklabels=[])
+        sns.despine(ax=ax)
+        ax.set_title(f'r = {np.corrcoef(pc_scores[:, 0], dt_scores)[0, 1]:.2f}')
+
+    fig.tight_layout()
+    if SAVE_FIGS:
+        fname = op.join(directories.figs, 'principal_components')
         utils.savefig(fname, fig)
 
 

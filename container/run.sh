@@ -87,7 +87,7 @@ export SINGULARITYENV_MKL_NUM_THREADS=1
 export SINGULARITYENV_PPMI_PASSWORD=${PPMI_PASSWORD}
 export SINGULARITYENV_PPMI_USER=${PPMI_USER}
 # setting some display things
-export SINGULARITYENV_DISPLAY=:0
+export SINGULARITYENV_DISPLAY=:1
 
 # check to see if symlink to raw BIDS dataset exists
 bids="$( readlink -f "data/raw/ppmi/bids" )"
