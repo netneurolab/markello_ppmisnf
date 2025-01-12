@@ -4,7 +4,10 @@
 
 ## "What's in this repository?"
 
-This repository contains data, code, and results for the manuscript "[Integrated morphometric, molecular, and clinical characterization of Parkinson's disease pathology](https://www.biorxiv.org/content/10.1101/2020.03.05.979526v1)."
+This repository contains data, code, and results for the paper:
+
+Markello, R. D., Shafiei, G., Tremblay, C., Postuma, R. B., Dagher, A., & Misic, B. (2021). Multimodal phenotypic axes of Parkinson’s disease. _Npj Parkinson’s Disease_, _7_(1), 1–12. [https://doi.org/10.1038/s41531-020-00144-9](https://doi.org/10.1038/s41531-020-00144-9)
+
 The study examines the application of similarity network fusion to Parkinson's disease using data from the [Parkinson's Progression Markers Initiative](https://www.ppmi-info.org) (PPMI).
 
 We've tried to document the various aspects of this repository with a whole bunch of README files, so feel free to jump around and check things out.
