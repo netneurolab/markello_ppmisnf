@@ -2,7 +2,7 @@ docker
 flake8
 h5py==2.9.0
 ipython==7.3.0
-joblib==0.13.2
+joblib==1.2.0
 jupyterlab
 matplotlib==3.0.3
 mkl==2019.0
